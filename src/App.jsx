@@ -1,8 +1,10 @@
-import About from './Pages/About'
-import HomePage from './Pages/Home'
+import { lazy, Suspense } from 'react'
 import Page404 from './Pages/Page404'
 import { Route } from './Route'
 import { Router } from './Router'
+
+const About = lazy(() => import('./Pages/About.jsx')) //Import dinamico
+const HomePage = lazy(() => import('./Pages/Home.jsx')) //Import dinamico
 
 
 
@@ -17,10 +19,12 @@ function App() {
 
   return (
     <main>
-      <Router routes={appRoutes} defaultComponent={Page404} >
-        <Route path='/' Component={HomePage} />
-        <Route path='/about' Component={About} />
-      </Router >
+      <Suspense fallback={null}>
+        <Router routes={appRoutes} defaultComponent={Page404} >
+          <Route path='/' Component={HomePage} />
+          <Route path='/about' Component={About} />
+        </Router >
+      </Suspense>
 
     </main>
   )
